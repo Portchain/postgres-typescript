@@ -1,0 +1,13 @@
+/* tslint:disable */
+@extraImports
+import { @helperFunction } from '../queryHelper';
+
+interface Arguments {
+@argumentFields
+}
+
+interface Result {
+@resultFields
+}
+
+export const @queryName = @helperFunction<Arguments, Result>(__filename);

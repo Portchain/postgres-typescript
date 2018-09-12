@@ -44,6 +44,61 @@ function writeIfChanged(filePath, fileContents) {
   console.info(`codegen: wrote ${filePath}`);
 }
 
+function extractImportDetails(str) {
+  const match = str.match(/^[\.\/A-Za-z0-9]+({([A-Za-z0-9\s]+)})?$/);
+  if (match) {
+    return {
+      package: match[1],
+      import: match[2]
+    }
+  } else {
+    return null
+  }
+}
+
+const TYPESCRIPT_BASIC_TYPES = [
+  'boolean',
+  'number',
+  'string',
+  'any'
+]
+
+function isBasicType(str) {
+  return /^(boolean|number|string|any)(\[\])?$/.test(str)
+}
+
+
+function extractDataTypes(datatypeAnnotations) {
+  const data = {
+    packages: {},
+    fields: {},
+    extends: {}
+  }
+  for(let i = 0 ; i < resultAnnotations.length ; i++) {
+    const resultAnnotation = resultAnnotations[i]
+    if(/:/.test(resultAnnotation.value)) {
+      const fieldTypePair = resultAnnotation.value.split(':')
+      if(isBasicType(fieldTypePair[0])) {
+        resultFields.push(resultAnnotation)
+      } else {
+        const importInfo = extractImportDetails(resultField.value)
+        if(importInfo) {
+          extraImports.push(importInfo)
+        } else {
+          throw new Error(`Failed to parse @result [${resultField.value}] in SQL file [${sqlFile}]`)
+        }
+      }
+    } else {
+      const importInfo = extractImportDetails(resultField.value)
+      if(importInfo) {
+        extraImports.push(importInfo)
+      } else {
+        throw new Error(`Failed to parse @result [${resultField.value}] in SQL file [${sqlFile}]`)
+      }
+    }
+  }
+}
+
 function processDirectory(absoluteDirPath) {
   fs.readdirSync(absoluteDirPath).forEach(dirItem => {
     dirItemAbs = path.join(absoluteDirPath, dirItem)
@@ -66,21 +121,37 @@ function processDirectory(absoluteDirPath) {
       const extraImports = []
       let extendResultString = ''
       let extendArgString = ''
-      const argumentFields = items.filter(item => item['type'] == 'arg').map(item => item['value'])
-      const resultFields = items.filter(item => item['type'] == 'return').map(item => item['value'])
-      const extendResult = items.filter(item => item['type'] == 'extendsResults').map(item => item['value'])
-      const extendArg = items.filter(item => item['type'] == 'extendsArgs').map(item => item['value'])
+      const resultFields = []
+      const argumentAnnotations = items.filter(item => item['type'] == 'arg').map(item => item['value'])
+      const args = extractDataTypes(argumentAnnotations)
       const helperFunction = items.filter(item => item['type'] == 'unique').length > 0 ? 'buildQueryWithUniqueResult' : 'buildQuery'
       const queryName = subdirItem.replace('.query.sql', '')
-      if (items.filter(item => ['arg', 'return'].includes(item['type']) && item['value'].includes('Moment,')).length > 0) {
-        // hack: import Moment if the argument string contains 'Moment'
-        extraImports.push("import { Moment } from 'moment';")
+      
+      const resultAnnotations = items.filter(item => item['type'] == 'return').map(item => item['value'])
+      for(let i = 0 ; i < resultAnnotations.length ; i++) {
+        const resultAnnotation = resultAnnotations[i]
+        if(/:/.test(resultAnnotation.value)) {
+          const fieldTypePair = resultAnnotation.value.split(':')
+          if(isBasicType(fieldTypePair[0])) {
+            resultFields.push(resultAnnotation)
+          } else {
+            const importInfo = extractImportDetails(resultField.value)
+            if(importInfo) {
+              extraImports.push(importInfo)
+            } else {
+              throw new Error(`Failed to parse @result [${resultField.value}] in SQL file [${sqlFile}]`)
+            }
+          }
+        } else {
+          const importInfo = extractImportDetails(resultField.value)
+          if(importInfo) {
+            extraImports.push(importInfo)
+          } else {
+            throw new Error(`Failed to parse @result [${resultField.value}] in SQL file [${sqlFile}]`)
+          }
+        }
       }
-  
-      if (items.filter(item => ['arg', 'return', 'extendsResults', 'extendsArgs'].includes(item['type']) && item['value'].includes('dt.')).length > 0) {
-        extraImports.push("import * as dt from '../../../common/DataTypes';")
-      }
-  
+
       if (extendResult.length > 0) {
         extendResultString = ' extends ' + extendResult[0]
       }

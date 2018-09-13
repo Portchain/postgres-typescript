@@ -3,9 +3,7 @@
   "version": "0.1.0",
   "description": "",
   "keywords": [],
-  "main": "dist/postgres-typescript.umd.js",
-  "module": "dist/postgres-typescript.es2015.js",
-  "typings": "dist/types/postgres-typescript.d.ts",
+  "main": "dist/postgres-typescript.ts",
   "files": [
     "dist"
   ],
@@ -83,6 +81,7 @@
     "moment": "2.22.2",
     "pg": "7.4.3",
     "pg-connection-string": "2.0.0",
-    "pg-parameters": "0.2.3"
+    "pg-parameters": "0.2.3",
+    "rollup-plugin-json": "^3.0.0"
   }
 }

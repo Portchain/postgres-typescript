@@ -1,11 +1,12 @@
-import * as fs from 'fs'
-import { Client } from 'pg-parameters'
-import { db } from './conf'
+import * as fs from 'fs';
+import { Client } from 'pg-parameters';
+import { db } from './conf';
 
-import * as moment from 'moment'
-import { types } from 'pg'
-const camelCase = require('lodash.camelcase')
+import * as moment_ from 'moment';
+import { types } from 'pg';
+import camelCase from 'lodash.camelcase'
 
+const moment = moment_
 const TIMESTAMPTZ_OID = 1184
 const parseFn = (val: any) => {
   return val === null ? null : moment(val)

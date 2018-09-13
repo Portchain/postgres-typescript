@@ -5,7 +5,7 @@
 -- @arg ids:number[]
 -- @arg bool:boolean
 -- @arg date:moment{Moment}
--- @result ../../DataTypeTest2
--- @result user:../../DataTypeTest2{User}
--- @result portCalls:../../DataTypeTest2{PortCall[]}
+-- @return ../../DataTypeTest2
+-- @return user:../../DataTypeTest2{User}
+-- @return portCalls:../../DataTypeTest2{PortCall[]}
 SELECT * FROM dummy

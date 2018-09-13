@@ -97,4 +97,14 @@ describe('generate TS', () => {
 
     assert.equal(actualTSContent, expectedTSContent)
   });
+
+  it('data3', () => {
+    let testName = 'data3'
+    const sqlFile = fs.readFileSync(path.join(__dirname, 'codegendata.spec', `${testName}.sql`), 'utf8')
+    const expectedTSContent = fs.readFileSync(path.join(__dirname, 'codegendata.spec', `${testName}.ts`), 'utf8')
+
+    const actualTSContent = generateTypeScriptFromSQL(sqlFile, testName)
+
+    assert.equal(actualTSContent, expectedTSContent)
+  });
 })

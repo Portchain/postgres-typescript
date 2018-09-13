@@ -1,4 +1,4 @@
 -- @arg DataType{User}
--- @result DataType{PortCall}
+-- @return DataType{PortCall}
 -- @unique
 SELECT * FROM dummy

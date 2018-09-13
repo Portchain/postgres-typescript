@@ -30,7 +30,7 @@
     "semantic-release-prepare": "ts-node tools/semantic-release-prepare"
   },
   "bin": {
-    "postgres-typescript-codegen": "./codegen.js"
+    "postgres-typescript-codegen": "./src/codegen.js"
   },
   "jest": {
     "transform": {

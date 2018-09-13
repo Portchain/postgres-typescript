@@ -13,8 +13,8 @@ const {
 
 function writeIfChanged(filePath, fileContent) {
   try {
-    const oldContents = fs.readFileSync(filePath, 'utf8');
-    if (oldContents == fileContent) return;
+    const oldContent = fs.readFileSync(filePath, 'utf8');
+    if (oldContent == fileContent) return;
   } catch (error) {
     // File doesn't exist. Continue
   }
@@ -37,34 +37,21 @@ function processDirectory(absoluteDirPath) {
         return
       }
       const sqlFile = fs.readFileSync(subdirItemAbs, 'utf8')
-      const fileContent = generateTypeScriptFromSQL(sqlFile, subdirItemAbs)
+      const fileContent = generateTypeScriptFromSQL(sqlFile, subdirItem)
       if(!fileContent) {
         return
       }
+      const queryName = subdirItem.replace('.query.sql', '')
       const fileName = queryName + '.query.ts'
       const filePath = path.join(dirItemAbs, fileName)
       writeIfChanged(filePath, fileContent)
       generatedQueryNames.push(queryName)
     })
-    // Delete old ts files
-    fs.readdirSync(dirItemAbs).forEach(subdirItem => {
-      subdirItemAbs = path.join(dirItemAbs, subdirItem)
-      if (fs.statSync(subdirItemAbs).isDirectory() || !subdirItemAbs.endsWith('.query.ts')) {
-        return
-      }
-      const tsFile = fs.readFileSync(subdirItemAbs, 'utf8')
-      const queryName = subdirItem.replace('.query.ts', '')
-      if (tsFile.startsWith(codegenWarning) && !generatedQueryNames.includes(queryName)) {
-        fs.unlinkSync(subdirItemAbs)
-        console.info(`codegen: deleted ${subdirItemAbs}`)
-      }
-    })
     // Write exports file
-    const exportsFileBody =
-      generatedQueryNames.length > 0
-        ? generatedQueryNames.map(queryName => `export { ${queryName}, Result as ${queryName}Result, Arguments as ${queryName}Args } from './${queryName}.query';`).join('\n') + '\n'
-        : ''
-    writeIfChanged(path.join(dirItemAbs, 'index.ts'), codegenWarning + exportsFileBody)
+    if(generatedQueryNames.length > 0) {
+      const exportsFileBody = generatedQueryNames.map(queryName => `export { ${queryName}, Result as ${queryName}Result, Arguments as ${queryName}Args } from './${queryName}.query';`).join('\n') + '\n'
+      writeIfChanged(path.join(dirItemAbs, 'sqlExports.ts'), codegenWarning + exportsFileBody)
+    }
   })
 }
 

@@ -1,13 +1,13 @@
 /* tslint:disable */
 @extraImports
-import { @helperFunction } from 'postgres-typescript'
+import { @helperFunction } from 'postgres-typescript';
 
-interface Arguments @extendArg {
+export interface Arguments @extendArg {
 @argumentFields
 }
 
-interface Result @extendResult {
+export interface Result @extendResult {
 @resultFields
 }
 
-export const @queryName = @helperFunction<Arguments, Result>(__filename)
+export const @queryName = @helperFunction<Arguments, Result>(__filename);

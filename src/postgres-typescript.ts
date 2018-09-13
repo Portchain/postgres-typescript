@@ -4,7 +4,7 @@ const { db } = require('./conf');
 
 const moment = require('moment');
 const { types } = require('pg');
-const camelCase = require('lodash.camelcase')
+const _ = require('lodash')
 
 const TIMESTAMPTZ_OID = 1184
 const parseFn = (val: any) => {
@@ -17,7 +17,7 @@ const client = new Client(db)
 const camelCaseFields = <T>(sourceObject: any): T => {
   const camelCasedObject: any = {}
   Object.keys(sourceObject).forEach(key => {
-    camelCasedObject[camelCase(key)] = sourceObject[key]
+    camelCasedObject[_.camelCase(key)] = sourceObject[key]
   })
   return camelCasedObject as T
 }

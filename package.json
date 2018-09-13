@@ -3,11 +3,11 @@
   "version": "0.1.0",
   "description": "",
   "keywords": [],
-  "main": "dist/postgres-typescript.umd.js",
-  "module": "dist/postgres-typescript.es2015.js",
-  "typings": "dist/types/postgres-typescript.d.ts",
+  "main": "compiled/postgres-typescript.js",
   "files": [
-    "dist"
+    "dist",
+    "src",
+    "compiled"
   ],
   "author": "Nicolas HERMENT <nicolas@portchain.com>",
   "repository": {
@@ -20,14 +20,8 @@
   },
   "scripts": {
     "lint": "tslint --type-check -p 'tsconfig.json' codeFrame 'src/**/*.ts'",
-    "prebuild": "rimraf dist",
-    "build": "tsc && rollup -c && rimraf compiled && typedoc --out dist/docs --target es6 --theme minimal --exclude '**/*.spec.ts' src",
-    "start": "tsc-watch --onSuccess \"rollup -c\"",
-    "test": "jest",
-    "test:watch": "jest --watch",
-    "test:prod": "npm run lint && npm run test -- --coverage --no-cache",
-    "deploy-docs": "ts-node tools/gh-pages-publish",
-    "semantic-release-prepare": "ts-node tools/semantic-release-prepare"
+    "build": "tsc",
+    "test": "jest"
   },
   "bin": {
     "postgres-typescript-codegen": "./src/codegen.js"

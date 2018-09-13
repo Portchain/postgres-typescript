@@ -1,0 +1,13 @@
+declare const fs: any;
+declare const Client: any;
+declare const db: any;
+declare const moment: any;
+declare const types: any;
+declare const camelCase: any;
+declare const TIMESTAMPTZ_OID = 1184;
+declare const parseFn: (val: any) => any;
+declare const client: any;
+declare const camelCaseFields: <T>(sourceObject: any) => T;
+declare function buildQuery<Args, Result>(queryTsFile: string): ((args: Args) => Promise<Result[]>);
+declare function buildQueryWithUniqueResult<Args, Result>(queryTsFile: string): ((args: Args) => Promise<Result | null>);
+declare function getClient(): any;

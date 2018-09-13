@@ -1,12 +1,11 @@
-import * as fs from 'fs';
-import { Client } from 'pg-parameters';
-import { db } from './conf';
+const fs = require('fs');
+const { Client } = require('pg-parameters');
+const { db } = require('./conf');
 
-import * as moment_ from 'moment';
-import { types } from 'pg';
-import camelCase from 'lodash.camelcase'
+const moment = require('moment');
+const { types } = require('pg');
+const camelCase = require('lodash.camelcase')
 
-const moment = moment_
 const TIMESTAMPTZ_OID = 1184
 const parseFn = (val: any) => {
   return val === null ? null : moment(val)
@@ -48,8 +47,8 @@ function buildQueryWithUniqueResult<Args, Result>(queryTsFile: string): ((args: 
   }
 }
 
-async function getClient() {
+function getClient() {
   return client
 }
 
-export { buildQuery, buildQueryWithUniqueResult, getClient }
+module.exports = { buildQuery, buildQueryWithUniqueResult, getClient }

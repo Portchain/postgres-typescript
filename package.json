@@ -1,12 +1,9 @@
 {
   "name": "postgres-typescript",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "",
   "keywords": [],
-  "main": "dist/postgres-typescript.ts",
-  "files": [
-    "dist"
-  ],
+  "main": "src/postgres-typescript.ts",
   "author": "Nicolas HERMENT <nicolas@portchain.com>",
   "repository": {
     "type": "git",

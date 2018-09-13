@@ -3,7 +3,7 @@ declare const Client: any;
 declare const db: any;
 declare const moment: any;
 declare const types: any;
-declare const camelCase: any;
+declare const _: any;
 declare const TIMESTAMPTZ_OID = 1184;
 declare const parseFn: (val: any) => any;
 declare const client: any;

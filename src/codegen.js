@@ -20,6 +20,7 @@ function writeIfChanged(filePath, fileContent) {
   }
   fs.writeFileSync(filePath, fileContent);
   console.info(`codegen: wrote ${filePath}`);
+  return true;
 }
 
 function processDirectory(absoluteDirPath) {
@@ -44,7 +45,6 @@ function processDirectory(absoluteDirPath) {
       const queryName = subdirItem.replace('.query.sql', '')
       const fileName = queryName + '.query.ts'
       const filePath = path.join(dirItemAbs, fileName)
-      writeIfChanged(filePath, fileContent)
       generatedQueryNames.push(queryName)
     })
     // Write exports file

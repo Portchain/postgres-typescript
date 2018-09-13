@@ -23,7 +23,6 @@ function packageToImportStatement(package) {
 
 function buildExtendsStatement(extendTypes) {
   if(extendTypes && extendTypes.length > 0) {
-    console.log('buildExtendsStatement', extendTypes, `extends ${extendTypes.join(', ')}`)
     return `extends ${extendTypes.join(', ')}`
   }
   return ''

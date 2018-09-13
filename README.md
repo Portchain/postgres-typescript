@@ -103,3 +103,51 @@ FROM app_users
 WHERE company = :company  
   AND is_active = :isActive
 ```
+
+### Collisions
+
+Using default imports, you may create a collision that this library won't solve for you.
+For example, the following annotations:
+
+```sql
+-- @arg ../DataType
+-- @return ../other/DataType
+```
+
+will generate the following conflicting imports:
+
+```ts
+import { DataType } from '../DataType'
+import { DataType } from '../other/DataType'
+```
+
+this holds true for importing types. The following is NOT valid:
+
+
+```sql
+-- @arg ../File1{User}
+-- @return ../File2{User}
+```
+
+as it'll generate:
+
+```ts
+import { User } from '../File1'
+import { User } from '../File2'
+```
+
+
+Thus you need to make sure you specifically import non-colliding sub types:
+
+
+```sql
+-- @arg ../File1{User}
+-- @return ../File2{ShallowUser}
+```
+
+as it'll generate thje imports:
+
+```ts
+import { User } from '../File1'
+import { ShallowUser } from '../File2'
+```

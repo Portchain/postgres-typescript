@@ -1,9 +1,14 @@
 {
   "name": "postgres-typescript",
-  "version": "0.1.1",
+  "version": "0.1.0",
   "description": "",
   "keywords": [],
-  "main": "src/postgres-typescript.ts",
+  "main": "dist/postgres-typescript.umd.js",
+  "module": "dist/postgres-typescript.es2015.js",
+  "typings": "dist/types/postgres-typescript.d.ts",
+  "files": [
+    "dist"
+  ],
   "author": "Nicolas HERMENT <nicolas@portchain.com>",
   "repository": {
     "type": "git",

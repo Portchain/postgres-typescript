@@ -1,0 +1,11 @@
+-- @arg name:string
+-- @arg def:../DataTypeTest1
+-- @arg user:../../DataTypeTest2{User}
+-- @arg def2:../../DataTypeTest2
+-- @arg ids:number[]
+-- @arg bool:boolean
+-- @arg date:moment{Moment}
+-- @result ../../DataTypeTest2
+-- @result user:../../DataTypeTest2{User}
+-- @result portCalls:../../DataTypeTest2{PortCall[]}
+SELECT * FROM dummy

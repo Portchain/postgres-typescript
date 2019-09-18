@@ -1,6 +1,6 @@
 {
   "name": "postgres-typescript",
-  "version": "0.1.6",
+  "version": "1.0.0",
   "description": "",
   "keywords": [],
   "main": "compiled/postgres-typescript.js",

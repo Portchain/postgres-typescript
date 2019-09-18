@@ -10,6 +10,8 @@ How to use it?
 - step 2: call `postgres-typescript-codegen <srcDir1> <srcDir2>`
 - step 3: use typescript in your application logic
 
+The command `postgres-typescript-codegen` will recursively parse all folders passed as argument.
+
 > for better developer experience, create a SQL file watcher that automatically calls `postgres-typescript-codegen`.
 
 For example:

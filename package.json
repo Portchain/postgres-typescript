@@ -12,7 +12,7 @@
   "author": "Nicolas HERMENT <nicolas@portchain.com>",
   "repository": {
     "type": "git",
-    "url": ""
+    "url": "https://github.com/Portchain/postgres-typescript"
   },
   "license": "MIT",
   "engines": {

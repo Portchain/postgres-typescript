@@ -19,40 +19,45 @@ function writeIfChanged(filePath, fileContent) {
     // File doesn't exist. Continue
   }
   fs.writeFileSync(filePath, fileContent);
-  console.info(`codegen: wrote ${filePath}`);
+  console.info(`postgres-typescript: wrote ${filePath}`);
   return true;
+}
+
+function processDirectoryQueries(absoluteDirPath) {
+  const generatedQueryNames = []
+  fs.readdirSync(absoluteDirPath).forEach(file => {
+    fileAbsPath = path.join(absoluteDirPath, file)
+    if (fs.statSync(fileAbsPath).isDirectory() || !fileAbsPath.endsWith('.query.sql')) {
+      return
+    }
+    const sqlFile = fs.readFileSync(fileAbsPath, 'utf8')
+    const filePathWithoutExtension = fileAbsPath.replace(/\.query\.sql$/, '')
+    const queryName = path.basename(filePathWithoutExtension)
+    const filePath = filePathWithoutExtension + '.query.ts'
+    
+    const fileContent = generateTypeScriptFromSQL(sqlFile, fileAbsPath)
+    if(!fileContent) {
+      return
+    }
+    fs.writeFileSync(filePath, fileContent)
+    console.info(`postgres-typescript: wrote ${filePath}`)
+    generatedQueryNames.push(queryName)
+  })
+  // Write exports file
+  if(generatedQueryNames.length > 0) {
+    const exportsFileBody = generatedQueryNames.map(queryName => `export { ${queryName}, Result as ${queryName}Result, Arguments as ${queryName}Args } from './${queryName}.query';`).join('\n') + '\n'
+    writeIfChanged(path.join(absoluteDirPath, 'sqlExports.ts'), codegenWarning + exportsFileBody)
+  }
 }
 
 function processDirectory(absoluteDirPath) {
   fs.readdirSync(absoluteDirPath).forEach(dirItem => {
-    dirItemAbs = path.join(absoluteDirPath, dirItem)
-    if (!fs.statSync(dirItemAbs).isDirectory()) {
-      return
-    }
-  
-    const generatedQueryNames = []
-    // Create new ts files
-    fs.readdirSync(dirItemAbs).forEach(subdirItem => {
-      subdirItemAbs = path.join(dirItemAbs, subdirItem)
-      if (fs.statSync(subdirItemAbs).isDirectory() || !subdirItemAbs.endsWith('.query.sql')) {
-        return
-      }
-      const sqlFile = fs.readFileSync(subdirItemAbs, 'utf8')
-      const fileContent = generateTypeScriptFromSQL(sqlFile, subdirItem)
-      if(!fileContent) {
-        return
-      }
-      const queryName = subdirItem.replace('.query.sql', '')
-      const fileName = queryName + '.query.ts'
-      const filePath = path.join(dirItemAbs, fileName)
-      generatedQueryNames.push(queryName)
-    })
-    // Write exports file
-    if(generatedQueryNames.length > 0) {
-      const exportsFileBody = generatedQueryNames.map(queryName => `export { ${queryName}, Result as ${queryName}Result, Arguments as ${queryName}Args } from './${queryName}.query';`).join('\n') + '\n'
-      writeIfChanged(path.join(dirItemAbs, 'sqlExports.ts'), codegenWarning + exportsFileBody)
+    const dirItemAbsPath = path.join(absoluteDirPath, dirItem)
+    if (fs.statSync(dirItemAbsPath).isDirectory()) {
+      processDirectory(dirItemAbsPath)
     }
   })
+  processDirectoryQueries(absoluteDirPath)
 }
 
 const directories = []
@@ -69,4 +74,7 @@ if(argv && argv._ && argv._.length > 0) {
   directories.push(process.cwd())
 }
 
-directories.forEach(processDirectory)
+directories.forEach((dir) => {
+  console.info('postgres-typescript: processing source code at', dir)
+  processDirectory(dir)
+})

@@ -155,7 +155,7 @@ function generateTypeScriptFromSQL(sql, sqlFilePath) {
   const returnsAnnotations = items.filter(item => item['type'] == 'return').map(item => item['value'])
   const returns = extractDataTypes(returnsAnnotations, commonPackages, sqlFilePath)
   const helperFunction = items.filter(item => item['type'] == 'unique').length > 0 ? 'buildQueryWithUniqueResult' : 'buildQuery'
-  const queryName = sqlFilePath.replace('.query.sql', '')
+  const queryName = path.basename(sqlFilePath, '.query.sql')
   const fileContent = getQueryTs(queryName, args, returns, helperFunction, commonPackages)
   return fileContent
 }

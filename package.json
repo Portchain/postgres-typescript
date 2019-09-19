@@ -3,11 +3,11 @@
   "version": "1.0.0",
   "description": "",
   "keywords": [],
-  "main": "compiled/postgres-typescript.js",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "files": [
     "dist",
-    "src",
-    "compiled"
+    "src"
   ],
   "author": "Nicolas HERMENT <nicolas@portchain.com>",
   "repository": {
@@ -48,7 +48,7 @@
     "@angular/compiler": "^4.3.6",
     "@angular/core": "^4.3.6",
     "@types/jest": "^20.0.0",
-    "@types/node": "^8.0.0",
+    "@types/node": "^8.10.54",
     "codelyzer": "^3.2.0",
     "colors": "^1.1.2",
     "cross-env": "^5.0.1",

@@ -26,7 +26,7 @@ function writeIfChanged(filePath, fileContent) {
 function processDirectoryQueries(absoluteDirPath) {
   const generatedQueryNames = []
   fs.readdirSync(absoluteDirPath).forEach(file => {
-    fileAbsPath = path.join(absoluteDirPath, file)
+    const fileAbsPath = path.join(absoluteDirPath, file)
     if (fs.statSync(fileAbsPath).isDirectory() || !fileAbsPath.endsWith('.query.sql')) {
       return
     }

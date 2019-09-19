@@ -16,7 +16,7 @@ if (process.env.DATABASE_URL) {
   pgConnStringConf = parse(process.env.DATABASE_URL);
 }
 
-module.exports = {
+module.exports = {  
   isProduction: process.env.NODE_ENV === 'production',
   db: {
     host: pgConnStringConf.host || process.env.DB_HOST || '127.0.0.1',
@@ -26,4 +26,4 @@ module.exports = {
     password: pgConnStringConf.password || process.env.DB_PWD || 'portchain',
     ssl: process.env.NODE_ENV === 'production'
   }
-};
+}

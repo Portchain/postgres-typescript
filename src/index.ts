@@ -1,5 +1,5 @@
-const fs = require('fs');
-const { Client } = require('pg-parameters');
+import * as fs from 'fs';
+import { Client } from 'pg-parameters';
 const { db } = require('./conf');
 
 const moment = require('moment');
@@ -34,7 +34,7 @@ function buildQuery<Args, Result>(queryTsFile: string): ((args: Args) => Promise
 
 function buildQueryWithUniqueResult<Args, Result>(queryTsFile: string): ((args: Args) => Promise<Result | null>) {
   const queryFunction = buildQuery<Args, Result>(queryTsFile)
-  return (args: Args) => {
+  return async (args: Args): Promise<Result> => {
     return queryFunction(args).then(results => {
       if (results.length > 0) {
         if (results.length > 1) {

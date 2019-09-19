@@ -1,5 +1,5 @@
-const { parse } = require('pg-connection-string');
-let pgConnStringConf = {
+var parse = require('pg-connection-string').parse;
+var pgConnStringConf = {
     host: null,
     port: null,
     database: null,

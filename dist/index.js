@@ -71,6 +71,7 @@ function buildQuery(queryTsFile) {
         });
     }); };
 }
+exports.buildQuery = buildQuery;
 function buildQueryWithUniqueResult(queryTsFile) {
     var _this = this;
     var queryFunction = buildQuery(queryTsFile);
@@ -88,8 +89,9 @@ function buildQueryWithUniqueResult(queryTsFile) {
         });
     }); };
 }
+exports.buildQueryWithUniqueResult = buildQueryWithUniqueResult;
 function getClient() {
     return client;
 }
-module.exports = { buildQuery: buildQuery, buildQueryWithUniqueResult: buildQueryWithUniqueResult, getClient: getClient };
+exports.getClient = getClient;
 //# sourceMappingURL=index.js.map

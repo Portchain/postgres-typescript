@@ -22,7 +22,7 @@ const camelCaseFields = <T>(sourceObject: any): T => {
   return camelCasedObject as T
 }
 
-function buildQuery<Args, Result>(queryTsFile: string): ((args: Args) => Promise<Result[]>) {
+export function buildQuery<Args, Result>(queryTsFile: string): ((args: Args) => Promise<Result[]>) {
   const queryFileName = queryTsFile.replace(/\.(ts|js|sql)$/, '.sql')
   const query = fs.readFileSync(queryFileName, { encoding: 'utf8' })
   return async (args: Args): Promise<Result[]> => {
@@ -32,7 +32,7 @@ function buildQuery<Args, Result>(queryTsFile: string): ((args: Args) => Promise
   }
 }
 
-function buildQueryWithUniqueResult<Args, Result>(queryTsFile: string): ((args: Args) => Promise<Result | null>) {
+export function buildQueryWithUniqueResult<Args, Result>(queryTsFile: string): ((args: Args) => Promise<Result | null>) {
   const queryFunction = buildQuery<Args, Result>(queryTsFile)
   return async (args: Args): Promise<Result> => {
     return queryFunction(args).then(results => {
@@ -47,8 +47,6 @@ function buildQueryWithUniqueResult<Args, Result>(queryTsFile: string): ((args: 
   }
 }
 
-function getClient() {
+export function getClient() {
   return client
 }
-
-module.exports = { buildQuery, buildQueryWithUniqueResult, getClient }

@@ -9,6 +9,7 @@ How to use it?
 - step 1: create SQL files with annotations about the arguments (names & types) and the data returned (names & types)
 - step 2: call `postgres-typescript-codegen <srcDir1> <srcDir2>`
 - step 3: use typescript in your application logic
+- step 4: set environment variables: `DB_HOST`, `DB_PORT`, `DB_NAME`, `DB_USER`, `DB_PWD` or `DATABASE_URL`
 
 The command `postgres-typescript-codegen` will recursively parse all folders passed as argument.
 

@@ -39,8 +39,7 @@ function processDirectoryQueries(absoluteDirPath) {
     if(!fileContent) {
       return
     }
-    fs.writeFileSync(filePath, fileContent)
-    console.info(`postgres-typescript: wrote ${filePath}`)
+    writeIfChanged(filePath, fileContent)
     generatedQueryNames.push(queryName)
   })
   // Write exports file

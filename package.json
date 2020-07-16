@@ -71,7 +71,7 @@
     "zone.js": "^0.8.17"
   },
   "dependencies": {
-    "lodash": "4.17.13",
+    "lodash": "4.17.19",
     "minimist": "1.2.0",
     "moment": "2.22.2",
     "pg": "7.4.3",

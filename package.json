@@ -46,7 +46,7 @@
   },
   "devDependencies": {
     "@angular/compiler": "^4.3.6",
-    "@angular/core": "^4.3.6",
+    "@angular/core": "^11.0.5",
     "@types/jest": "^20.0.0",
     "@types/node": "^8.10.54",
     "codelyzer": "^3.2.0",
